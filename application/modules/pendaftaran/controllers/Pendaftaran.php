@@ -119,24 +119,14 @@ class Pendaftaran extends CI_Controller {
                         <div class="form-group modalEdit">
                             <label class="control-label col-md-3">Jenis Kelamin</label>
                             <div class="col-md-9">
-                                <select class="selectpicker" data-style="btn-white" name="jenis_kelamin"
-                                    style="width:100%" value="'.$item->jk_pasien.'">
-                                        <option>Laki-laki</option>
-                                        <option>Perempuan</option>
-                                </select>
+                                <input type="text" name="jenis_kelamin" class="form-control" style="width:100%" value="'.$item->jk_pasien.'" readonly>
                             </div>
                         </div>
 
                         <div class="form-group modalEdit">
                             <label class="control-label col-md-3">Golongan Darah</label>
                             <div class="col-md-9">
-                                 <select class="selectpicker" data-style="btn-white" name="golongan_darah"
-                                    style="width:100%" value="'.$item->gol_darah_pasien.'">
-                                        <option>A</option>
-                                        <option>B</option>
-                                        <option>O</option>
-                                        <option>AB</option>
-                                </select>
+                                <input type="text" name="golongan_darah" class="form-control" style="width:100%" value="'.$item->gol_darah_pasien.'" readonly>
                             </div>
                         </div>
                     

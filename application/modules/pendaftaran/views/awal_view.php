@@ -5,6 +5,11 @@
     <link src="<?=base_url();?>assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
     <link href="assets/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .modalEdit{
+            width: 100%;
+        }
+    </style>
 
     <div class="content-page">
         <!-- Start content -->
@@ -200,12 +205,6 @@
         $('#btnSave').attr('disabled',true); //set button disable 
         var url;
      
-       /*/ if(save_method == 'add') {
-       // url = "<?php echo site_url('pendaftaran/ajax_add_pasien')?>";
-       // } 
-       // else {
-        //url = "<?php echo site_url('pendaftaran/ajax_update')?>";
-       // }*/
         
      url = "<?=site_url('pendaftaran/ajax_add_pasien')?>";
         // ajax adding data to database
@@ -287,12 +286,6 @@
       
     }
 
-
-    function otomatis(){
-
-    }
-
-
     function new_periksa(id){
         $('#periksa')[0].reset(); // reset form on modals
         $('.form-group').removeClass('has-error'); // clear error class
@@ -335,26 +328,6 @@
     });
 
     }
- 
-   
-function hari(){
-    $( "#datepicker1" ).datepicker({dateFormat: 'dd/mm/yy'});
-    local = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu' ];
-     
-    $('#datepicker1').datepicker()
-    .on("change", function () {    
-         var today = new Date($('#datepicker1').datepicker('getDate'));      
-       //alert(local[today.getDay()]);
-       $('#day').val(local[today.getDay()]);
-    });
-
-);
-}
- 
-   
-
-    
-
 </script>
 
 
