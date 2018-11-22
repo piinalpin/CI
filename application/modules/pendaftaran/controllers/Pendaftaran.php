@@ -28,7 +28,7 @@ class Pendaftaran extends CI_Controller {
 			$row[] = $item->jk_pasien;
 
             $row[]  =['
-            <button class="btn btn-sm btn-primary" href="javascript:void();" title="Pilih" onclick="new_periksa('."'".$item->id_pasien."'".')"><i class="fa fa-pencil"> Pilih</i>
+            <button class="btn btn-sm btn-primary" href="javascript:void();" title="Periksa" onclick="new_periksa('."'".$item->id_pasien."'".')"><i class="fa fa-medkit"> Periksa</i>
             </button> 
 
             
@@ -36,7 +36,7 @@ class Pendaftaran extends CI_Controller {
             </button>
 
             <button class="btn btn-sm btn-danger"
-             href="javascript:void();" title="Delete" onclick="delete_pasien('."'".$item->id_pasien."','".$item->nama_pasien."'".')"><i class="fa fa-pencil">Delete</i>
+             href="javascript:void();" title="Delete" onclick="delete_pasien('."'".$item->id_pasien."','".$item->nama_pasien."'".')"><i class="fa fa-trash"> Delete</i>
             </button>
 
             <!-- Modal untuk penyedia Boga -->
