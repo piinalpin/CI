@@ -311,6 +311,7 @@ class Pendaftaran extends CI_Controller {
         $this->_validate();
         $data = array(
             'nama_pasien'            => $this->input->post('nama_pasien'),
+            'nama_pasien'            => $this->input->post('nama_pasien'),
             'alamat_pasien'          => $this->input->post('alamat_pasien'),
             'kelurahan_pasien'       => $this->input->post('nama_kelurahan'),
             'kecamatan_pasien'       => $this->input->post('nama_kecamatan'),
@@ -332,7 +333,7 @@ class Pendaftaran extends CI_Controller {
 
         );
         
-        $insert =  $this->pendaftaran_model->edit_pasien($this->input->post('id_pasien'), $data);
+        $insert =  $this->pendaftaran_model->edit_pasien($this->input->post('id'), $data);
         echo json_encode(array("status" => TRUE));
     }
 
