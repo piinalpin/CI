@@ -108,6 +108,9 @@
 
 <script src="<?=base_url();?>assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
+
+
+
 <script type="text/javascript">
     var save_method; //for save method string
     var table;
@@ -115,6 +118,8 @@
     $(document).ready(function () {
         $('#modal_input_pasien').modal('hide');
         $('#datepicker-autoclose').datepicker({
+            
+            format:"yyyy-mm-dd",
             autoclose: true,
             todayHighlight: true
         });
@@ -166,11 +171,15 @@
         
     });
 
+   
+
     function reload_table(){
         table.ajax.reload(null,false); 
     }
 
     function input_pasien(){
+        //save_method = 'add';
+
         $('#form_pasien')[0].reset(); // reset form on modals
         $('.form-group').removeClass('has-error'); // clear error class
         $('.help-block').empty(); // clear error string
@@ -179,47 +188,26 @@
         $('#modal_input_pasien').modal('show'); // show bootstrap modal 
     }
 
-    function new_periksa(id){
-        $('#periksa')[0].reset(); // reset form on modals
-        $('.form-group').removeClass('has-error'); // clear error class
-        $('.help-block').empty(); // clear error string
 
-        $('.modal-title').text('Form Daftar Periksa');
-        $("#poli").load("<?=base_url();?>pendaftaran/get_poli/" + id);
-
-        $.ajax({
-        url : "<?php echo site_url('pendaftaran/ajax_pasien/')?>/" + id,
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
-        {
- 
-            $('[name="id"]').val(data.id_pasien);
-            $('[name="nama"]').val(data.nama_pasien);
-            $('[name="jk"]').val(data.jk_pasien);
-            $('[name="goldarah"]').val(data.gol_darah_pasien);
-            $('[name="notlpn"]').val(data.no_telepon_pasien);
-
-            $('#modal_new_periksa').modal('show');  // show bootstrap modal when complete loaded
-
-            $('.modal-title').text('Edit Person'); // Set title to Bootstrap modal title
- 
-        },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
-            alert('Error get data from ajax');
-        }
-    });
-
+   
+    
+    function reload_table(){
+    table.ajax.reload(null,false); //reload datatable ajax 
     }
 
-    function save_pasien(){
+   function save_pasien(){
         $('#btnSave').text('Menyimpan.....'); //change button text
         $('#btnSave').attr('disabled',true); //set button disable 
         var url;
      
-        url = "<?=site_url('pendaftaran/ajax_add_pasien')?>";
-     
+       /*/ if(save_method == 'add') {
+       // url = "<?php echo site_url('pendaftaran/ajax_add_pasien')?>";
+       // } 
+       // else {
+        //url = "<?php echo site_url('pendaftaran/ajax_update')?>";
+       // }*/
+        
+     url = "<?=site_url('pendaftaran/ajax_add_pasien')?>";
         // ajax adding data to database
      
         var formData = new FormData($('#form_pasien')[0]);
@@ -258,9 +246,118 @@
                 $('#btnSave').attr('disabled',false); //set button enable 
      
             }
+
         });
+
+
     }
+
+    function delete_pasien(id_pasien, nama_pasien){
+    //if(confirm('Are you sure delete this data?')){
+        // ajax delete data to database
+        var url;
+         url = "<?=site_url('/pendaftaran/ajax_delete')?>";
+
+         swal({
+          title: "Are you sure?",
+          text: "Delete Pasien : " + nama_pasien,
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonClass: "btn-danger",
+          confirmButtonText: "Yes, delete it!",
+          closeOnConfirm: false
+        },
+        function(){
+          swal("Deleted!", "Data pasien has been deleted.", "success");
+          $.ajax({
+            url: url,
+            type: 'POST',
+            data: {'id_pasien': id_pasien},
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Terjadi kesalahan saat menghapus data');
+                $('#btnSave').text('Hapus Data pasien'); //change button text
+                $('#btnSave').attr('disabled',false); //set button enable 
+     
+            }
+        });
+        reload_table();
+        });
+
+      
+    }
+
+
+    function otomatis(){
+
+    }
+
+
+    function new_periksa(id){
+        $('#periksa')[0].reset(); // reset form on modals
+        $('.form-group').removeClass('has-error'); // clear error class
+        $('.help-block').empty(); // clear error string
+
+        $('.modal-title').text('Form Daftar Periksa');
+        $("#poli").load("<?=base_url();?>pendaftaran/get_poli");
+
+//
+        $("#jam").load("<?=base_url();?>pendaftaran/get_jadwal_jam/" + id);
+
+        $("#nama_dokter").load("<?=base_url();?>pendaftaran/get_nama_dokter/" + id);
+
+//
+
+        $.ajax({
+        url : "<?php echo site_url('pendaftaran/ajax_pasien/')?>/" + id,
+        type: "GET",
+        dataType: "JSON",
+        success: function(data)
+        {
+ 
+            $('[name="id"]').val(data.id_pasien);
+            $('[name="no_rm"]').val(data.no_rm);
+            $('[name="nama"]').val(data.nama_pasien);
+            $('[name="jk"]').val(data.jk_pasien);
+            $('[name="goldarah"]').val(data.gol_darah_pasien);
+            $('[name="notlpn"]').val(data.no_telepon_pasien);
+
+
+            $('#modal_new_periksa').modal('show');  // show bootstrap modal when complete loaded
+
+            $('.modal-title').text('Edit Person'); // Set title to Bootstrap modal title
+ 
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+            alert('Error get data from ajax');
+        }
+    });
+
+    }
+ 
+   
+function hari(){
+    $( "#datepicker1" ).datepicker({dateFormat: 'dd/mm/yy'});
+    local = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu' ];
+     
+    $('#datepicker1').datepicker()
+    .on("change", function () {    
+         var today = new Date($('#datepicker1').datepicker('getDate'));      
+       //alert(local[today.getDay()]);
+       $('#day').val(local[today.getDay()]);
+    });
+
+);
+}
+ 
+   
+
+    
+
 </script>
+
+
 
 <!-- Modal untuk penyedia Boga -->
 <div class="modal fade" id="modal_input_pasien" role="dialog">
@@ -274,6 +371,18 @@
                 <form action="#" id="form_pasien" class="form-horizontal">
                     <input type="hidden" name="id">
                     <div class="form-body form">
+                        
+                        <div class="form-group">
+                            <label class="control-label col-md-3"></label>
+                            <div class="col-md-9">
+                                <input type="hidden" name="no_rm" class="form-control" 
+                                 value="<?php echo random_string('numeric', 6);?>">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                    
+
+
                         <div class="form-group">
                             <label class="control-label col-md-3">Nama Pasien</label>
                             <div class="col-md-9">
@@ -332,7 +441,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Tanggal Lahir</label>
                             <div class="col-md-9">
-                                <input type="text" id="datepicker-autoclose" name="tanggal_lahir" class="form-control" placeholder="Masukkan Tanggal Lahir">
+                                <input type="date" id="datepicker-autoclose" name="tanggal_lahir" class="form-control" placeholder="Masukkan Tanggal Lahir">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -420,17 +529,166 @@
 </div><!-- /.modal -->
 <!-- End Bootstrap modal -->
 
+
+<script src="assets/plugins/notifyjs/js/notify.js"></script>
+<script src="assets/plugins/notifications/notify-metro.js"></script>
+
+
+
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here Prin Antrian -->
+            <!-- ============================================================== -->                      
+            <div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container">
+
+
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="panel panel-default">
+                                    <!-- <div class="panel-heading">
+                                        <h4>Invoice</h4>
+                                    </div> -->
+                                    <div class="panel-body">
+                                        <div class="clearfix">
+                                            <div class="pull-left">
+                                                <h4 class="text-right"><img src="assets/images/logo_dark.png" alt="velonic"></h4>
+                                                
+                                            </div>
+                                            <div class="pull-right">
+                                                <h4>Struk Antrian<br>
+                                                    <strong>2015-04-23654789</strong>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                
+                                                <div class="pull-left m-t-30">
+                                                    <address>
+                                                      <strong>Alamat Rumah Sakit</strong><br>
+                                                      Klinik Rawat Jalan AL-Mubarok<br>
+                                                      Ngalik Ngeposari Semanu<br>
+                                                      Gunung Kidul, DIY<br>
+                                                      <abbr title="Phone">Tlp:</abbr> (087) 4739-1439
+                                                      </address>
+                                                </div>
+                                                <div class="pull-right m-t-30">
+                                                    <p><strong>Tanggal Antrian: </strong> Jun 15, 2015</p>
+                                                    <!--<p class="m-t-10"><strong>Order Status: </strong> <span class="label label-pink">Pending</span></p> -->
+                                                    <p class="m-t-10"><strong>ID Pasien: </strong> #123456</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="m-h-50"></div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    <table class="table m-t-30">
+                                                        <thead>
+                                                            <th>Nama</th>
+                                                          </thead>
+                                                        
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Ahmad</td>
+                                                            </tr>
+                                                        </tbody>
+
+                                                        <thead>
+                                                            <th>Poli</th>
+                                                          </thead>
+                                                          <tbody>
+                                                            <tr>
+                                                                <td>Poli Gigi</td>
+                                                            </tr>
+                                                        </tbody>
+
+                                                        <thead>
+                                                            <th>Dokter</th>
+                                                          </thead>
+                                                          <tbody>
+                                                            <tr>
+                                                                <td>Dr.Mahmud</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="border-radius: 0px;">
+                                            <div class="col-md-3 col-md-offset-9">
+                                                <p class="text-right">NO.ANTRIAN</p>
+                                                <h3 class="text-right"><strong>G10</strong></h3>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="hidden-print">
+                                            <div class="pull-right">
+                                                <a href="javascript:window.print()" class="btn btn-inverse waves-effect waves-light"><i class="fa fa-print"></i></a>
+                                                <a href="#" class="btn btn-primary waves-effect waves-light">Submit</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div> <!-- container -->
+                               
+                </div> <!-- content -->
+
+                <footer class="footer">
+                    © 2016. All rights reserved.
+                </footer>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+
+
+            
+
+
+
+
+
+
+
+
 <!-- Modal untuk penyedia Boga -->
 <div class="modal fade" id="modal_new_periksa" role="dialog">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
-
             
-
             <div class="modal-body">
-                <form action="#" id="periksa" class="form-horizontal">
+                <form action="<?=base_url();?>pendaftaran/add_periksa" method="POST" id="periksa" class="form-horizontal">
                     <input type="hidden" name="id">
                     <div class="form-body form">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3"></label>
+                            <div class="col-md-9">
+                                <input type="hidden" name="id" class="form-control" >
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3"></label>
+                            <div class="col-md-9">
+                                <input type="hidden" name="no_rm" class="form-control" >
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+
                         <div class="form-group">
                             <label class="control-label col-md-3">Nama Pasien</label>
                             <div class="col-md-9">
@@ -453,13 +711,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3">No Telephon</label>
-                            <div class="col-md-9">
-                                <input type="text" name="notlpn" class="form-control">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
+                        
 
                         <!-- -->
                         <div class="form-group">
@@ -474,9 +726,46 @@
                         </div>
                         <!-- -->
 
+                        <!-- -->
+                        <div class="form-group">
+                             <label class="control-label col-md-3" > Hari </label>
+                             <div class="col-md-9">
+                                <select onchange="" class="form-control" data-style="btn-white" name="">
+                                        
+                                </select> 
+                                <span class="help-block"></span>
+                             </div>
+                        </div>
+                        <!-- -->
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Jam Periksa</label>
+                            <div class="col-md-9">
+                                <select class="form-control" id="jam" name="jam">
+                                    <!-- get data using ajax -->
+                                       
+                                </select>
+
+                                <!-- <input type="text" name="notlpn" class="form-control"> -->
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                             <label class="control-label col-md-3" > Dokter </label>
+                             <div class="col-md-9">
+                                 <select class="form-control" id="nama_dokter" name="nama_dokter">
+                                   <!-- get data using ajax -->
+                                       
+                                 </select>
+                                <span class="help-block"></span>
+                             </div>
+                        </div>
+
+
                     </div>
+                <input type="submit" class="btn btn-primary" value="Simpan Datar Periksa">
                 </form>
-                <button type="button" id="btnSave" onclick="save_pasien()" class="btn btn-primary">Simpan Datar Periksa</button>
 
                 <a class="hidden-print">
                     <div class="pull-right">
@@ -489,6 +778,10 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+ 
+
 
 <!-- End Bootstrap modal -->
   

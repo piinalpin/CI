@@ -54,7 +54,7 @@ class Pendaftaran_model extends CI_Model {
         $this->_get_datatables_query();
         if($_POST['length'] != -1)
         $this->db->limit($_POST['length'], $_POST['start']);
-
+        $this->db->where('status_pasien','1');
         $query = $this->db->get();
         return $query->result();
     }
@@ -77,7 +77,24 @@ class Pendaftaran_model extends CI_Model {
         return $this->db->insert_id();
     }
 
-    public function get_poli_by_id($id){
+     public function edit_pasien($id_pasien, $data)
+    {
+        $this->db->where('id_pasien', $id_pasien);
+        return $this->db->update($this->table, $data);
+    }
+ 
+    public function delete_pasien($id)
+    {   
+        //// UPDATE supplier SET status = 0 WHERE id_supplier = 1
+        $this->db->set('status_pasien', 0);
+        $this->db->where('id_pasien', $id);
+        return $this->db->update($this->table);
+    }
+
+
+
+
+    public function get_poli_by_id(){
         $this->db->from('poli');
         
         $query = $this->db->get();
@@ -91,6 +108,37 @@ class Pendaftaran_model extends CI_Model {
         $query = $this->db->get();
         return $query->row();
 
+    }
+
+//
+
+    public function get_jadwal_jam_by_id($id){
+        
+        $this->db->from('jadwal_dokter');
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+     public function get_nama_dokter_by_id($id,$poli,$jam){
+        
+         $this->db->from('jadwal_dokter');
+         $this->db->where('jam', $jam) ;
+         $this->db->where('id_poli', $id_poli);
+
+
+        $this->db->from('dokter');
+        $this->db->where('id_dokter',$id_dokter);
+        $query = $this->db->get();
+
+        return $query->result();
+    }
+
+
+//
+    public function save_periksa($data){
+        $this->db->insert('periksa', $data);
+        return $this->db->insert_id();
     }
 
 }
