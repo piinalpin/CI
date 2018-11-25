@@ -286,6 +286,12 @@
       
     }
 
+    function getDokter() {
+        var id_poli = document.getElementById('poli').value;
+        var hari = document.getElementById('hari').value;
+        $("#nama_dokter").load("<?=base_url();?>pendaftaran/get_nama_dokter/" + id_poli +"/" + hari);
+    }
+
     function new_periksa(id){
         $('#periksa')[0].reset(); // reset form on modals
         $('.form-group').removeClass('has-error'); // clear error class
@@ -296,8 +302,6 @@
 
 //
         $("#jam").load("<?=base_url();?>pendaftaran/get_jadwal_jam/" + id);
-
-        $("#nama_dokter").load("<?=base_url();?>pendaftaran/get_nama_dokter/" + id);
 
 //
 
@@ -684,13 +688,44 @@
                             </div>
                         </div>
 
-                        
+<?php
+    $arrayDay = array('Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu');
+    $arrayMonth = array('', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
+    if (date('D') == 'Sun') {
+        $hari = $arrayDay[0];
+    }elseif (date('D') == 'Mon') {
+        $hari = $arrayDay[1];
+    }elseif (date('D') == 'Tue') {
+        $hari = $arrayDay[2];
+    }elseif (date('D') == 'Wed') {
+        $hari = $arrayDay[3];
+    }elseif (date('D') == 'Thu') {
+        $hari = $arrayDay[4];
+    }elseif (date('D') == 'Fri') {
+        $hari = $arrayDay[5];
+    }elseif (date('D') == 'Sat') {
+        $hari = $arrayDay[6];
+    }else{
+        $hari = 'Not defined day.';
+    }
+    $month = $arrayMonth[date('n')];
+?>
 
                         <!-- -->
                         <div class="form-group">
+                             <label class="control-label col-md-3" > Hari, Tanggal </label>
+                             <div class="col-md-9">
+                               <input type="text" class="form-control" value="<?php echo $hari.', '.date('d').' '.$month.' '.date('Y'); ?>" disabled>
+                               <input type="hidden" class="form-control" id=hari value="<?php echo $hari;?>">
+                                <span class="help-block"></span>
+                             </div>
+                        </div>
+
+                         <!-- -->
+                        <div class="form-group">
                              <label class="control-label col-md-3" > Pilih Poli</label>
                              <div class="col-md-9">
-                                 <select class="form-control" id="poli" name="poli">
+                                 <select class="form-control" id="poli" name="poli" onchange="getDokter()">
                                     <!-- get data using ajax -->
                                        
                                  </select>
@@ -698,31 +733,6 @@
                              </div>
                         </div>
                         <!-- -->
-
-                        <!-- -->
-                        <div class="form-group">
-                             <label class="control-label col-md-3" > Hari </label>
-                             <div class="col-md-9">
-                                <select onchange="" class="form-control" data-style="btn-white" name="">
-                                        
-                                </select> 
-                                <span class="help-block"></span>
-                             </div>
-                        </div>
-                        <!-- -->
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Jam Periksa</label>
-                            <div class="col-md-9">
-                                <select class="form-control" id="jam" name="jam">
-                                    <!-- get data using ajax -->
-                                       
-                                </select>
-
-                                <!-- <input type="text" name="notlpn" class="form-control"> -->
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
 
                         <div class="form-group">
                              <label class="control-label col-md-3" > Dokter </label>

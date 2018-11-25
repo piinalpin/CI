@@ -134,6 +134,19 @@ class Pendaftaran_model extends CI_Model {
         return $query->result();
     }
 
+    public function getDokterByIdPoli($id_poli, $hari) {
+        // SELECT * FROM `jadwal_dokter` as `jd`, `poli` as `p`, `dokter` as `d` WHERE `jd`.`id_poli` = $id_poli AND `p`.`id_poli` = `jd`.`id_poli` AND `jd`.`hari` = '$hari' AND `d`.`id_dokter` = `jd`.`id_dokter`
+        $this->db->from('jadwal_dokter as jd');
+        $this->db->from('dokter as d');
+        $this->db->from('poli as p');
+        $this->db->where('jd.id_poli', (int)$id_poli);
+        $this->db->where('p.id_poli = jd.id_poli');
+        $this->db->where('d.id_dokter = jd.id_dokter');
+        $this->db->where('jd.hari', $hari);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
 
 //
     public function save_periksa($data){

@@ -483,6 +483,7 @@ class Pendaftaran extends CI_Controller {
     {
         $data = $this->pendaftaran_model->get_poli_by_id();
         $output = '';
+        $output .= '<option value="" selected disabled hidden>Choose here</option>';
         foreach ($data as $item) {
             $output .='
             <option value ="'.$item->id_poli.'">
@@ -516,21 +517,20 @@ class Pendaftaran extends CI_Controller {
     }
 
 //
-    public function get_nama_dokter($id,$jam,$poli)
+    public function get_nama_dokter($id_poli, $hari)
     {
        
-        $data = $this->pendaftaran_model->get_nama_dokter_by_id($id,$jam,$poli);
+        $data = $this->pendaftaran_model->getDokterByIdPoli($id_poli, $hari);
         $output = '';
         foreach ($data as $item) {
             $output .='
             <option value ="'.$item->nama_dokter.'">
                 
-                '.$item->nama_dokter.'
+                '.$item->nama_dokter.' - '.$item->jam.'
             </option>
             ';
             $no++;
         }
-
         echo $output;
     }
 
