@@ -497,7 +497,7 @@ class Pendaftaran extends CI_Controller {
     }
 
 //
-    public function get_jadwal_jam($id)
+ /* public function get_jadwal_jam($id)
     {
         $data = $this->pendaftaran_model->get_jadwal_jam_by_id($id);
         $output = '';
@@ -516,7 +516,7 @@ class Pendaftaran extends CI_Controller {
 
     }
 
-//
+/*/
     public function get_nama_dokter($id_poli, $hari)
     {
        
@@ -524,7 +524,7 @@ class Pendaftaran extends CI_Controller {
         $output = '';
         foreach ($data as $item) {
             $output .='
-            <option value ="'.$item->nama_dokter.'">
+            <option value ="'.$item->id_dokter.'">
                 
                 '.$item->nama_dokter.' - '.$item->jam.'
             </option>
@@ -545,8 +545,8 @@ class Pendaftaran extends CI_Controller {
             'no_rm'                => $this->input->post('no_rm'),
            
             'tgl_periksa'          => date('Y-m-d'),
-             'jam'                 => $this->input->post('jam'),
-             'nama_dokter'         => $this->input->post('nama_dokter')
+           //  'jam'                 => $this->input->post('jam')
+            'id_dokter'            =>$this->input->post('id_dokter')
 
 
         );
@@ -554,6 +554,9 @@ class Pendaftaran extends CI_Controller {
         $insert = $this->pendaftaran_model->save_periksa($data);
         echo json_encode(array("status" => TRUE));
     }
+
+
+
 
 
 

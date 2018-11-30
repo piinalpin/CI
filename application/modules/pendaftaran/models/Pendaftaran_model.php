@@ -112,14 +112,14 @@ class Pendaftaran_model extends CI_Model {
 
 //
 
-    public function get_jadwal_jam_by_id($id){
+ /*   public function get_jadwal_jam_by_id($id){
         
         $this->db->from('jadwal_dokter');
 
         $query = $this->db->get();
         return $query->result();
     }
-
+*/
      public function get_nama_dokter_by_id($id,$poli,$jam){
         
          $this->db->from('jadwal_dokter');
@@ -147,8 +147,6 @@ class Pendaftaran_model extends CI_Model {
         return $query->result();
     }
 
-
-//
     public function save_periksa($data){
         $this->db->insert('periksa', $data);
         return $this->db->insert_id();

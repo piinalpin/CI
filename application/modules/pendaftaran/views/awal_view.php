@@ -289,7 +289,7 @@
     function getDokter() {
         var id_poli = document.getElementById('poli').value;
         var hari = document.getElementById('hari').value;
-        $("#nama_dokter").load("<?=base_url();?>pendaftaran/get_nama_dokter/" + id_poli +"/" + hari);
+        $("#id_dokter").load("<?=base_url();?>pendaftaran/get_nama_dokter/" + id_poli +"/" + hari);
     }
 
     function new_periksa(id){
@@ -301,7 +301,7 @@
         $("#poli").load("<?=base_url();?>pendaftaran/get_poli");
 
 //
-        $("#jam").load("<?=base_url();?>pendaftaran/get_jadwal_jam/" + id);
+       
 
 //
 
@@ -516,7 +516,7 @@
             <!-- ============================================================== -->
             <!-- Start right Content here Prin Antrian -->
             <!-- ============================================================== -->                      
-            <div class="content-page">
+            <div class="content-page" id="print_antrian">
                 <!-- Start content -->
                 <div class="content">
                     <div class="container">
@@ -630,14 +630,6 @@
             <!-- ============================================================== -->
 
 
-            
-
-
-
-
-
-
-
 
 <!-- Modal untuk penyedia Boga -->
 <div class="modal fade" id="modal_new_periksa" role="dialog">
@@ -688,28 +680,28 @@
                             </div>
                         </div>
 
-<?php
-    $arrayDay = array('Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu');
-    $arrayMonth = array('', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
-    if (date('D') == 'Sun') {
-        $hari = $arrayDay[0];
-    }elseif (date('D') == 'Mon') {
-        $hari = $arrayDay[1];
-    }elseif (date('D') == 'Tue') {
-        $hari = $arrayDay[2];
-    }elseif (date('D') == 'Wed') {
-        $hari = $arrayDay[3];
-    }elseif (date('D') == 'Thu') {
-        $hari = $arrayDay[4];
-    }elseif (date('D') == 'Fri') {
-        $hari = $arrayDay[5];
-    }elseif (date('D') == 'Sat') {
-        $hari = $arrayDay[6];
-    }else{
-        $hari = 'Not defined day.';
-    }
-    $month = $arrayMonth[date('n')];
-?>
+                        <?php
+                            $arrayDay = array('Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu');
+                            $arrayMonth = array('', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
+                            if (date('D') == 'Sun') {
+                                $hari = $arrayDay[0];
+                            }elseif (date('D') == 'Mon') {
+                                $hari = $arrayDay[1];
+                            }elseif (date('D') == 'Tue') {
+                                $hari = $arrayDay[2];
+                            }elseif (date('D') == 'Wed') {
+                                $hari = $arrayDay[3];
+                            }elseif (date('D') == 'Thu') {
+                                $hari = $arrayDay[4];
+                            }elseif (date('D') == 'Fri') {
+                                $hari = $arrayDay[5];
+                            }elseif (date('D') == 'Sat') {
+                                $hari = $arrayDay[6];
+                            }else{
+                                $hari = 'Not defined day.';
+                            }
+                            $month = $arrayMonth[date('n')];
+                        ?>
 
                         <!-- -->
                         <div class="form-group">
@@ -737,7 +729,7 @@
                         <div class="form-group">
                              <label class="control-label col-md-3" > Dokter </label>
                              <div class="col-md-9">
-                                 <select class="form-control" id="nama_dokter" name="nama_dokter">
+                                 <select class="form-control" id="id_dokter" name="id_dokter">
                                    <!-- get data using ajax -->
                                        
                                  </select>
@@ -748,12 +740,16 @@
 
                     </div>
                 <input type="submit" class="btn btn-primary" value="Simpan Datar Periksa">
-                </form>
-
+               
                 <a class="hidden-print">
                     <div class="pull-right">
+
                         <a href="javascript:window.print()" class="btn btn-inverse waves-effect waves-light"><i class="fa fa-print"></i></a>
                 </a>
+
+                </form>
+
+                
 
             </div>
             <div class="modal-footer">
