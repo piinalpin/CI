@@ -288,7 +288,7 @@ class Pendaftaran extends CI_Controller {
             $row[] = $item->nama_dokter;
             $row[] = ['
 <button class="btn btn-sm btn-primary" href="javascript:void();" title="Periksa" onclick="new_periksa('."'".$item->id_pasien."'".')"><i class="fa fa-arrow-circle-right"> Masuk Ruang</i>
-            </button> '.date("Y-m-d").'
+            </button>
             '];
             $data[] = $row;
         }
