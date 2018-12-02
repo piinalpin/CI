@@ -241,10 +241,54 @@
             $(this).next().empty();
         });
      
-        
+        setInterval( function () {
+            switch(check_time()){
+                case '14:00:00':
+                    reload_table2();
+                    break;
+                case '14:00:01':
+                    reload_table2();
+                    break;
+                case '14:00:02':
+                    reload_table2();
+                    break;
+                case '14:00:03':
+                    reload_table2();
+                    break;
+                case '14:00:04':
+                    reload_table2();
+                    break;
+                case '14:00:05':
+                    reload_table2();
+                    break;
+                case '14:00:06':
+                    reload_table2();
+                    break;
+                case '14:00:07':
+                    reload_table2();
+                    break;
+                case '14:00:08':
+                    reload_table2();
+                    break;
+                case '14:00:09':
+                    reload_table2();
+                    break;
+                case '14:00:10':
+                    reload_table2();
+                    break;
+                default:
+                    console.log('Not Run');
+                    break;
+            }
+        }, 10000);
     });
 
-   
+   function addZero(i) {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
+}
 
     function reload_table(){
         table.ajax.reload(null,false);
@@ -366,6 +410,11 @@ function save_periksa(){
         });
 
 
+    }
+    function check_time() {
+        var date = new Date();
+        var time = addZero(date.getHours())+":"+addZero(date.getMinutes())+":"+addZero(date.getSeconds());
+        return time;
     }
 
     function delete_pasien(id_pasien, nama_pasien){
