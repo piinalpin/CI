@@ -247,7 +247,11 @@
    
 
     function reload_table(){
-        table.ajax.reload(null,false); 
+        table.ajax.reload(null,false);
+    }
+
+    function reload_table2() {
+        table2.ajax.reload(null,false);
     }
 
     function input_pasien(){
@@ -259,13 +263,6 @@
 
         $('.modal-title').text('Form Input Pasien');
         $('#modal_input_pasien').modal('show'); // show bootstrap modal 
-    }
-
-
-   
-    
-    function reload_table(){
-    table.ajax.reload(null,false); //reload datatable ajax 
     }
 
    function save_pasien(){
@@ -292,6 +289,58 @@
                 {
                     reload_table();
                     $('#modal_input_pasien').modal('hide');
+                }
+                else
+                {
+                    for (var i = 0; i < data.inputerror.length; i++) 
+                    {
+                        $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                        $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+                    }
+                }
+                $('#btnSave').text('Simpan Data Pasien'); //change button text
+                $('#btnSave').attr('disabled',false); //set button enable 
+     
+     
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Terjadi kesalahan saat menyimpan data');
+                $('#btnSave').text('Simpan Data Pasien'); //change button text
+                $('#btnSave').attr('disabled',false); //set button enable 
+     
+            }
+
+        });
+
+
+    }
+
+function save_periksa(){
+        $('#btnSave').text('Menyimpan.....'); //change button text
+        $('#btnSave').attr('disabled',true); //set button disable 
+        var url;
+     
+        
+     url = "<?=site_url('pendaftaran/add_periksa')?>";
+        // ajax adding data to database
+     
+        var formData = new FormData($('#form_periksa')[0]);
+        $.ajax({
+            url : url,
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: "JSON",
+            success: function(data)
+            {
+     
+                if(data.status) //if success close modal and reload ajax table
+                {
+                    reload_table2();
+                    $('#modal_new_periksa').modal('hide');
+                    $('#modal_new_periksa').modal('reset');
                 }
                 else
                 {
@@ -357,11 +406,11 @@
     function getDokter() {
         var id_poli = document.getElementById('poli').value;
         var hari = document.getElementById('hari').value;
-        $("#id_dokter").load("<?=base_url();?>pendaftaran/get_nama_dokter/" + id_poli +"/" + hari);
+        $("#dokter").load("<?=base_url();?>pendaftaran/get_nama_dokter/" + id_poli +"/" + hari);
     }
 
     function new_periksa(id){
-        $('#periksa')[0].reset(); // reset form on modals
+        $('#form_periksa')[0].reset(); // reset form on modals
         $('.form-group').removeClass('has-error'); // clear error class
         $('.help-block').empty(); // clear error string
 
@@ -705,7 +754,7 @@
         <div class="modal-content">
             
             <div class="modal-body">
-                <form action="<?=base_url();?>pendaftaran/add_periksa" method="POST" id="periksa" class="form-horizontal">
+                <form action="#" method="POST" id="form_periksa" class="form-horizontal">
                     <input type="hidden" name="id">
                     <div class="form-body form">
 
@@ -730,11 +779,7 @@
                             <label class="control-label col-md-3">Nama Pasien</label>
                             <div class="col-md-9">
                                 <input type="text" name="nama" class="form-control" >
-<<<<<<< HEAD
-                                <input type="hidden" name="status" value="1" >
-=======
                                 <input type="hidden" name="status" value="1">
->>>>>>> 3d2360d4a50e8264757758b70ab3ddf3678c9839
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -802,7 +847,7 @@
                         <div class="form-group">
                              <label class="control-label col-md-3" > Dokter </label>
                              <div class="col-md-9">
-                                 <select class="form-control" id="id_dokter" name="id_dokter">
+                                 <select class="form-control" id="dokter" name="dokter">
                                    <!-- get data using ajax -->
                                        
                                  </select>
@@ -812,7 +857,7 @@
 
 
                     </div>
-                <input type="submit" class="btn btn-primary" value="Simpan Daftar Periksa">
+                <button type="button" id="btnSave" onclick="save_periksa()" class="btn btn-primary">Simpan Daftar Periksa</button>
                
                 <a class="hidden-print">
                     <div class="pull-right">

@@ -551,9 +551,10 @@ class Pendaftaran extends CI_Controller {
        
         $data = $this->pendaftaran_model->getDokterByIdPoli($id_poli, $hari);
         $output = '';
+        $output .= '<option value="" selected disabled hidden>Choose here</option>';
         foreach ($data as $item) {
             $output .='
-            <option value ="'.$item->id_dokter.'">
+            <option value ="'.$item->id_dokter.','.$item->jam.'">
                 
                 '.$item->nama_dokter.' - '.$item->jam.'
             </option>
@@ -568,18 +569,15 @@ class Pendaftaran extends CI_Controller {
 
 
     public function add_periksa(){
-       
+        $dokter = $this->input->post('dokter');
+        $arrayDokter = explode(',', $dokter);
         $data = array(
             'id_pasien'            => $this->input->post('id'),
             'no_rm'                => $this->input->post('no_rm'),
-<<<<<<< HEAD
             'status'                => $this->input->post('status'),
-=======
-            'status'               => $this->input->post('status'),
->>>>>>> 3d2360d4a50e8264757758b70ab3ddf3678c9839
             'tgl_periksa'          => date('Y-m-d'),
-           //  'jam'                 => $this->input->post('jam')
-            'id_dokter'            =>$this->input->post('id_dokter')
+            'id_dokter'            =>$arrayDokter[0],
+            'jam'                 => $arrayDokter[1],
 
 
         );
