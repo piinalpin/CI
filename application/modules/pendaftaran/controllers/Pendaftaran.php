@@ -14,7 +14,7 @@ class Pendaftaran extends CI_Controller {
     public function acak(){
         echo random_string('numeric', 6); 
     }
-
+//readonly
 	public function ajax_list(){
 		$this->load->helper('url');
 
@@ -119,14 +119,14 @@ class Pendaftaran extends CI_Controller {
                         <div class="form-group modalEdit">
                             <label class="control-label col-md-3">Jenis Kelamin</label>
                             <div class="col-md-9">
-                                <input type="text" name="jenis_kelamin" class="form-control" style="width:100%" value="'.$item->jk_pasien.'" readonly>
+                                <input type="text" name="jenis_kelamin" class="form-control" style="width:100%" value="'.$item->jk_pasien.'">
                             </div>
                         </div>
 
                         <div class="form-group modalEdit">
                             <label class="control-label col-md-3">Golongan Darah</label>
                             <div class="col-md-9">
-                                <input type="text" name="golongan_darah" class="form-control" style="width:100%" value="'.$item->gol_darah_pasien.'" readonly>
+                                <input type="text" name="golongan_darah" class="form-control" style="width:100%" value="'.$item->gol_darah_pasien.'">
                             </div>
                         </div>
                     
@@ -543,7 +543,7 @@ class Pendaftaran extends CI_Controller {
         $data = array(
             'id_pasien'            => $this->input->post('id'),
             'no_rm'                => $this->input->post('no_rm'),
-           
+            'status'                => $this->input->post('status'),
             'tgl_periksa'          => date('Y-m-d'),
            //  'jam'                 => $this->input->post('jam')
             'id_dokter'            =>$this->input->post('id_dokter')
@@ -554,10 +554,6 @@ class Pendaftaran extends CI_Controller {
         $insert = $this->pendaftaran_model->save_periksa($data);
         echo json_encode(array("status" => TRUE));
     }
-
-
-
-
 
 
 }
