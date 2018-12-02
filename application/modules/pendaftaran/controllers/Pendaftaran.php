@@ -257,10 +257,10 @@ class Pendaftaran extends CI_Controller {
 
 '
 ]; 
-
 			$data[] = $row;
 
         }
+
 
 		$output = array(
                         "draw" => $_POST['draw'],
@@ -268,12 +268,41 @@ class Pendaftaran extends CI_Controller {
                         "recordsFiltered" => $this->pendaftaran_model->count_filtered(),
                         "data" => $data,
                 );
+
+
+
         //output to json format
         echo json_encode($output);
 
 	}
 
-  
+  public function ajax_list_periksa(){
+      
+    $list = $this->pendaftaran_model->get_data_periksa();
+    $data = array();
+      foreach ($list as $item) {
+            $row = array();
+            $row[] = $item->nama_pasien;
+            $row[] = $item->nik_pasien;
+            $row[] = $item->jk_pasien;
+            $row[] = $item->nama_dokter;
+            $row[] = ['
+<button class="btn btn-sm btn-primary" href="javascript:void();" title="Periksa" onclick="new_periksa('."'".$item->id_pasien."'".')"><i class="fa fa-arrow-circle-right"> Masuk Ruang</i>
+            </button>
+            '];
+            $data[] = $row;
+        }
+
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "data" => $data,
+                );
+
+
+
+        //output to json format
+        echo json_encode($output);
+  }
  
 
     public function ajax_add_pasien(){

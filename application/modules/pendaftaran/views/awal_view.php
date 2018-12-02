@@ -76,6 +76,34 @@
                 </div>
                                 <!-- end row -->
 
+                                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box table-responsive">
+                            <h4 class="m-t-0 header-title"><b>Antrian Periksa Pasien</b></h4>
+                            <br><br>
+
+                            <table id="table_periksa" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Nama</th>
+                                    <th>NIK</th>
+                                    <th>Jenis Kelamin</th>
+                                    <th>Dokter</th>
+                                    <th>Aksi</th>
+                                    
+                                </tr>
+                                </thead>
+
+
+                                <tbody>
+                                    
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
 
             </div> <!-- container -->
 
@@ -156,6 +184,46 @@
                     },
                     { 
                         "targets": [ -3 ], //2 last column (photo)
+                        "orderable": false, //set not orderable
+                    },
+                ]
+        });
+        table2 = $('#table_periksa').DataTable({
+            "processing": true, //Feature control the processing indicator.
+                "serverSide": true, //Feature control DataTables' server-side processing mode.
+                "order": [], //Initial no order.
+         
+                // Load data for the table's content from an Ajax source
+                "ajax": {
+                    "url": "<?=site_url('pendaftaran/ajax_list_periksa')?>",
+                    "type": "POST"
+                },
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": true,
+                "bInfo": false,
+                "bAutoWidth": false,
+         
+                //Set column definition initialisation properties.
+                "columnDefs": [
+                    { 
+                        "targets": [ 0 ], //last column
+                        "orderable": false, //set not orderable
+                    },
+                    { 
+                        "targets": [ 1 ], //2 last column (photo)
+                        "orderable": false, //set not orderable
+                    },
+                    { 
+                        "targets": [ 2 ], //2 last column (photo)
+                        "orderable": false, //set not orderable
+                    },
+                    { 
+                        "targets": [ 3 ], //2 last column (photo)
+                        "orderable": false, //set not orderable
+                    },
+                    { 
+                        "targets": [ 4 ], //2 last column (photo)
                         "orderable": false, //set not orderable
                     },
                 ]
