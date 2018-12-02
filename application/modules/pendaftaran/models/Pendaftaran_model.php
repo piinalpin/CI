@@ -66,7 +66,7 @@ class Pendaftaran_model extends CI_Model {
         $this->db->where('ps.id_pasien = pr.id_pasien');
         $this->db->where('d.id_dokter = pr.id_dokter');
         $this->db->where('pr.status', 1);
-        if (date('H:i:s') < date('H:i:s', strtotime("14:00:00"))) {
+        if (date('H:i:s') < date('H:i:s', strtotime("14:00:00")) && date('H:i:s') >= date('H:i:s', strtotime("00:00:00"))) {
             $this->db->where('pr.jam', 'pagi');
         }
         elseif (date('H:i:s') > date('H:i:s', strtotime("14:00:00"))) {
