@@ -368,10 +368,6 @@
         $('.modal-title').text('Form Daftar Periksa');
         $("#poli").load("<?=base_url();?>pendaftaran/get_poli");
 
-//
-       
-
-//
 
         $.ajax({
         url : "<?php echo site_url('pendaftaran/ajax_pasien/')?>/" + id,
@@ -391,11 +387,15 @@
             $('#modal_new_periksa').modal('show');  // show bootstrap modal when complete loaded
 
             $('.modal-title').text('Edit Person'); // Set title to Bootstrap modal title
+
+        
+           
  
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
             alert('Error get data from ajax');
+           
         }
     });
 
@@ -730,7 +730,11 @@
                             <label class="control-label col-md-3">Nama Pasien</label>
                             <div class="col-md-9">
                                 <input type="text" name="nama" class="form-control" >
+<<<<<<< HEAD
+                                <input type="hidden" name="status" value="1" >
+=======
                                 <input type="hidden" name="status" value="1">
+>>>>>>> 3d2360d4a50e8264757758b70ab3ddf3678c9839
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -808,7 +812,7 @@
 
 
                     </div>
-                <input type="submit" class="btn btn-primary" value="Simpan Datar Periksa">
+                <input type="submit" class="btn btn-primary" value="Simpan Daftar Periksa">
                
                 <a class="hidden-print">
                     <div class="pull-right">
