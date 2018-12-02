@@ -662,7 +662,11 @@
                             <label class="control-label col-md-3">Nama Pasien</label>
                             <div class="col-md-9">
                                 <input type="text" name="nama" class="form-control" >
+<<<<<<< HEAD
                                 <input type="hidden" name="status" value="1" >
+=======
+                                <input type="hidden" name="status" value="1">
+>>>>>>> 3d2360d4a50e8264757758b70ab3ddf3678c9839
                                 <span class="help-block"></span>
                             </div>
                         </div>

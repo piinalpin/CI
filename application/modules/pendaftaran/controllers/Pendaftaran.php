@@ -543,7 +543,11 @@ class Pendaftaran extends CI_Controller {
         $data = array(
             'id_pasien'            => $this->input->post('id'),
             'no_rm'                => $this->input->post('no_rm'),
+<<<<<<< HEAD
             'status'                => $this->input->post('status'),
+=======
+            'status'               => $this->input->post('status'),
+>>>>>>> 3d2360d4a50e8264757758b70ab3ddf3678c9839
             'tgl_periksa'          => date('Y-m-d'),
            //  'jam'                 => $this->input->post('jam')
             'id_dokter'            =>$this->input->post('id_dokter')
