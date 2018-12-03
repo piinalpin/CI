@@ -452,6 +452,46 @@ function save_periksa(){
       
     }
 
+
+    function di_periksa(id_periksa){
+    //if(confirm('Are you sure delete this data?')){
+        // ajax delete data to database
+        var url;
+         url = "<?=site_url('/pendaftaran/ajax_delete_periksa')?>";
+
+         swal({
+          title: "Are you sure?",
+          text: "Enter To Chek Up " ,
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonClass: "btn-danger",
+          confirmButtonText: "Yes, delete it!",
+          closeOnConfirm: false
+        },
+        function(){
+          swal("Deleted!", "Data periksa has been deleted.", "success");
+          $.ajax({
+            url: url,
+            type: 'POST',
+            data: {'id_periksa': id_periksa},
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Terjadi kesalahan saat menghapus data');
+                $('#btnSave').text('Hapus Data periksa'); //change button text
+                $('#btnSave').attr('disabled',false); //set button enable 
+     
+            }
+        });
+        reload_table();
+        });
+
+      
+    }
+
+
+
+
+
     function getDokter() {
         var id_poli = document.getElementById('poli').value;
         var hari = document.getElementById('hari').value;
@@ -801,7 +841,10 @@ function save_periksa(){
 <div class="modal fade" id="modal_new_periksa" role="dialog">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
-            
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title">Form Input Pasien</h3>
+            </div>
             <div class="modal-body">
                 <form action="#" method="POST" id="form_periksa" class="form-horizontal">
                     <input type="hidden" name="id">

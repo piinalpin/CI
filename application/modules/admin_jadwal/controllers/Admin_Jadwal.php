@@ -1,20 +1,17 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Pendaftaran extends CI_Controller {
+class Admin_Jadwal extends CI_Controller {
 	 public function __construct(){
 		parent::__construct();
-		$this->load->model('pendaftaran_model');
+		$this->load->model('admin_jawdal_model');
 	}
 
 	public function index(){
-		$this->theme->load('awal_view');
+		$this->theme->load('admin_jawdal_view');
         
 	}
 
-    public function acak(){
-        echo random_string('numeric', 6); 
-    }
-//readonly
+
 	public function ajax_list(){
 		$this->load->helper('url');
 
@@ -22,10 +19,10 @@ class Pendaftaran extends CI_Controller {
 		$data = array();
 		foreach ($list as $item) {
             $row = array();
-			$row[] = $item->nama_pasien;
-			$row[] = $item->nik_pasien;
-			$row[] = $item->alamat_pasien;
-			$row[] = $item->jk_pasien;
+			$row[] = $item->;
+			$row[] = $item->;
+			$row[] = $item->;
+			$row[] = $item->n;
 
             $row[]  =['
             <button class="btn btn-sm btn-primary" href="javascript:void();" title="Periksa" onclick="new_periksa('."'".$item->id_pasien."'".')"><i class="fa fa-medkit"> Periksa</i>
@@ -119,14 +116,14 @@ class Pendaftaran extends CI_Controller {
                         <div class="form-group modalEdit">
                             <label class="control-label col-md-3">Jenis Kelamin</label>
                             <div class="col-md-9">
-                                <input type="text" name="jenis_kelamin" class="form-control" style="width:100%" value="'.$item->jk_pasien.'">
+                                <input type="text" name="jenis_kelamin" class="form-control" style="width:100%" value="'.$item->jk_pasien.'" readonly>
                             </div>
                         </div>
 
                         <div class="form-group modalEdit">
                             <label class="control-label col-md-3">Golongan Darah</label>
                             <div class="col-md-9">
-                                <input type="text" name="golongan_darah" class="form-control" style="width:100%" value="'.$item->gol_darah_pasien.'">
+                                <input type="text" name="golongan_darah" class="form-control" style="width:100%" value="'.$item->gol_darah_pasien.'" readonly>
                             </div>
                         </div>
                     
@@ -257,10 +254,10 @@ class Pendaftaran extends CI_Controller {
 
 '
 ]; 
+
 			$data[] = $row;
 
         }
-
 
 		$output = array(
                         "draw" => $_POST['draw'],
@@ -268,41 +265,12 @@ class Pendaftaran extends CI_Controller {
                         "recordsFiltered" => $this->pendaftaran_model->count_filtered(),
                         "data" => $data,
                 );
-
-
-
         //output to json format
         echo json_encode($output);
 
 	}
 
-  public function ajax_list_periksa(){
-      
-    $list = $this->pendaftaran_model->get_data_periksa();
-    $data = array();
-      foreach ($list as $item) {
-            $row = array();
-            $row[] = $item->nama_pasien;
-            $row[] = $item->nik_pasien;
-            $row[] = $item->jk_pasien;
-            $row[] = $item->nama_dokter;
-            $row[] = ['
-<button class="btn btn-sm btn-primary" href="javascript:void();" title="Periksa" onclick="di_periksa('."'".$item->id_periksa."'".')"><i class="fa fa-arrow-circle-right"> Masuk Ruang</i>
-            </button>
-            '];
-            $data[] = $row;
-        }
-
-        $output = array(
-                        "draw" => $_POST['draw'],
-                        "data" => $data,
-                );
-
-
-
-        //output to json format
-        echo json_encode($output);
-  }
+  
  
 
     public function ajax_add_pasien(){
@@ -370,14 +338,6 @@ class Pendaftaran extends CI_Controller {
     {
         $id = $this->input->post('id_pasien');
         $this->pendaftaran_model->delete_pasien($id);
-        echo json_encode(array("status" => TRUE));
-    }
-
-
-    public function ajax_delete_periksa()
-    {
-        $id = $this->input->post('id_periksa');
-        $this->pendaftaran_model->di_periksa($id);
         echo json_encode(array("status" => TRUE));
     }
 
@@ -559,10 +519,9 @@ class Pendaftaran extends CI_Controller {
        
         $data = $this->pendaftaran_model->getDokterByIdPoli($id_poli, $hari);
         $output = '';
-        $output .= '<option value="" selected disabled hidden>Choose here</option>';
         foreach ($data as $item) {
             $output .='
-            <option value ="'.$item->id_dokter.','.$item->jam.'">
+            <option value ="'.$item->id_dokter.'">
                 
                 '.$item->nama_dokter.' - '.$item->jam.'
             </option>
@@ -577,15 +536,14 @@ class Pendaftaran extends CI_Controller {
 
 
     public function add_periksa(){
-        $dokter = $this->input->post('dokter');
-        $arrayDokter = explode(',', $dokter);
+       
         $data = array(
             'id_pasien'            => $this->input->post('id'),
             'no_rm'                => $this->input->post('no_rm'),
-            'status'                => $this->input->post('status'),
+           
             'tgl_periksa'          => date('Y-m-d'),
-            'id_dokter'            =>$arrayDokter[0],
-            'jam'                 => $arrayDokter[1],
+           //  'jam'                 => $this->input->post('jam')
+            'id_dokter'            =>$this->input->post('id_dokter')
 
 
         );
@@ -593,6 +551,10 @@ class Pendaftaran extends CI_Controller {
         $insert = $this->pendaftaran_model->save_periksa($data);
         echo json_encode(array("status" => TRUE));
     }
+
+
+
+
 
 
 }

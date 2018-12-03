@@ -59,25 +59,6 @@ class Pendaftaran_model extends CI_Model {
         return $query->result();
     }
 
-    function get_data_periksa(){
-        $this->db->from('periksa as pr');
-        $this->db->from('dokter as d');
-        $this->db->from('pasien as ps');
-        $this->db->where('ps.id_pasien = pr.id_pasien');
-        $this->db->where('d.id_dokter = pr.id_dokter');
-        $this->db->where('pr.status', 1);
-        if (date('H:i:s') < date('H:i:s', strtotime("14:00:00"))) {
-            $this->db->where('pr.jam', 'pagi');
-        }
-        elseif (date('H:i:s') > date('H:i:s', strtotime("14:00:00"))) {
-            $this->db->where('pr.jam', 'sore');
-        }
-        $this->db->where('pr.tgl_periksa', date("Y-m-d"));
-        $this->db->order_by('pr.id_periksa', 'asc');
-        $query = $this->db->get();
-        return $query->result();
-    }
-
     function count_filtered()
     {
         $this->_get_datatables_query();
@@ -110,13 +91,7 @@ class Pendaftaran_model extends CI_Model {
         return $this->db->update($this->table);
     }
 
-     public function di_periksa($id)
-    {   
-        //// UPDATE supplier SET status = 0 WHERE id_supplier = 1
-        $this->db->set('status', 0);
-        $this->db->where('id_periksa', $id);
-        return $this->db->update('periksa');
-    }
+
 
 
     public function get_poli_by_id(){
